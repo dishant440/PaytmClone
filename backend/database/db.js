@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Connection = async () => {
   await mongoose
-    .connect("mongodb+srv://dishant:dishant@cluster0.l75zfnv.mongodb.net/")
+    .connect("mongodb+srv://dishant:dishant@cluster0.l75zfnv.mongodb.net/PaytmDB")
     .then(() => {
       console.log("connected to mongo database");
     })
