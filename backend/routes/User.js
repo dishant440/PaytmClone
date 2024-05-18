@@ -30,11 +30,11 @@ router.post("/signup", async function (req, res) {
     firstName: req.body.firstName,
     lastName: req.body.lastName,
   });
-  const userid = newUser._id;
+  const userId = newUser._id;
 
   const token = jwt.sign(
     {
-      userid,
+      userId,
     },
     JWT_SECRET
   );
@@ -62,7 +62,7 @@ router.post("/signin", async function (req, res) {
   if (user) {
     const token = jwt.sign(
       {
-        userid: user._id,
+        userId: user._id,
       },
       JWT_SECRET
     );
