@@ -6,11 +6,10 @@ const router = Router();
 
 router.get("/balance", authMiddleware, async (req, res) => {
   const userId = req.userId;
-  // console.log(userid);
+
   const account = await Account.findOne({
     userId,
   });
-  console.log(account);
   res.json({
     balance: account.balance,
   });
@@ -28,9 +27,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
     const amount = req.body.amount;
 
     // Fetching the account from the database
-    const account = await Account.findOne({ userId: req.userId }).session(
-      session
-    );
+    const account = await Account.findOne({ userId: req.userId }).session(session);
 
     if (!account || account.balance < amount) {
       await session.abortTransaction();
