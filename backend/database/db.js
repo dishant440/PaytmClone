@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Connection = async () => {
+const ConnectionToDB = async () => {
   await mongoose
     .connect("mongodb+srv://dishant:dishant@cluster0.l75zfnv.mongodb.net/PaytmDB")
     .then(() => {
@@ -57,7 +57,7 @@ const User = mongoose.model('User',UserSchema);
 const Account = mongoose.model('Account',AccountSchema)
 
 module.exports = {
-    Connection,
+  ConnectionToDB,
     User,
     Account
 }

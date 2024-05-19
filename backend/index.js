@@ -1,16 +1,16 @@
 const express = require('express')
-const {Connection} = require('./database/db')
+const {ConnectionToDB} = require('./database/db')
 const bodyParser = require('body-parser');
 const rootRouter = require('./routes/index')
 const cors = require('cors')
 
 const app = express();
 
+ConnectionToDB(); //function to connect to database
+
 app.use(cors())
 app.use(bodyParser.json());
-app.use('/api/v1',rootRouter);
-
-Connection(); //function to connect to database
+app.use('api/v1',rootRouter);
 
 
 
