@@ -5,10 +5,12 @@ const { default: mongoose } = require("mongoose");
 const router = Router();
 
 router.get("/balance", authMiddleware, async (req, res) => {
-  const userid = req.userId;
+  const userId = req.userId;
+  // console.log(userid);
   const account = await Account.findOne({
-    userid,
+    userId,
   });
+  console.log(account);
   res.json({
     balance: account.balance,
   });
