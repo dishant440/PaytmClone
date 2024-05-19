@@ -10,7 +10,7 @@ ConnectionToDB(); //function to connect to database
 
 app.use(cors())
 app.use(bodyParser.json());
-app.use('api/v1',rootRouter);
+app.use('/api/v1',rootRouter);
 
 
 
