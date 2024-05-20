@@ -15,7 +15,6 @@ const signupBody = zod.object({
 });
 
 router.post("/signup", async function (req, res) {
-
   const { success } = signupBody.safeParse(req.body);
 
   if (!success) {
@@ -42,7 +41,7 @@ router.post("/signup", async function (req, res) {
     });
     userId = newUser._id;
   } catch (error) {
-    return res.json({ error: error.message }); 
+    return res.json({ error: error.message });
   }
 
   // creating an account on signup
@@ -52,7 +51,7 @@ router.post("/signup", async function (req, res) {
       balance: 1 + Math.random() * 10000,
     });
   } catch (error) {
-    return res.json({ error: error.message });  
+    return res.json({ error: error.message });
   }
 
   const token = jwt.sign(
@@ -68,7 +67,7 @@ router.post("/signup", async function (req, res) {
 });
 
 // signin route
-  
+
 const signinBody = zod.object({
   username: zod.string().email(),
   password: zod.string(),
@@ -81,7 +80,6 @@ router.post("/signin", async (req, res) => {
       message: "Email already taken / Incorrect inputs",
     });
   }
-
 
   const user = await User.findOne({
     username: req.body.username,
@@ -123,12 +121,9 @@ router.put("/", authMiddleware, async (req, res) => {
   const params = req.body;
   const userId = req.userId;
 
-  console.log(userId);
-  console.log(params);
-
-  const update = await User.updateOne({_id: userId},{$set:params});
+  await User.updateOne({ _id: userId }, { $set: params });
   res.json({
-    message: "Updated successfully"
+    message: "Updated successfully",
   });
 });
 
@@ -136,16 +131,15 @@ router.put("/", authMiddleware, async (req, res) => {
 
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
-
-  const users = await User.findOne({
+  const users = await User.find({
     $or: [
       {
-        firstName: {
+        firstname: {
           $regex: filter,
         },
       },
       {
-        lastName: {
+        lastname: {
           $regex: filter,
         },
       },
@@ -153,7 +147,7 @@ router.get("/bulk", async (req, res) => {
   });
 
   res.json({
-    user: users.map((user) => ({
+    users: users.map((user) => ({
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
