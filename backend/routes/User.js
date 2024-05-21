@@ -60,7 +60,7 @@ router.post("/signup", async function (req, res) {
     },
     JWT_SECRET
   );
-  res.json({
+  res.status(200).json({
     message: "User Created Successfully",
     token: token,
   });
