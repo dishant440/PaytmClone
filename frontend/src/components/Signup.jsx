@@ -47,12 +47,12 @@ export default function Signup() {
           </div>
           <button
             type="submit"
-            className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+            className="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
             Sign Up
           </button>
         </form>
-        <p className="text-gray-600 pt-2 text-center"> Already have an Account? <span >Login</span></p>
+        <p className="text-gray-600 pt-2 text-center "> Already have an Account? <span className="underline cursor-pointer" >Login</span></p>
       </div>
     </div>
   );
