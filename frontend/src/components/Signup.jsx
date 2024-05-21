@@ -7,6 +7,7 @@ export default function Signup() {
   const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [error,setError] = useState("");
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
@@ -21,7 +22,8 @@ export default function Signup() {
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
     } catch (error) {
-      console.error("Signup error:", error);
+      setError("Signup Failed Try again")
+      
     }
   };
 
@@ -32,6 +34,7 @@ export default function Signup() {
           <h1 className="text-3xl font-bold">Sign Up</h1>
           <p className="text-gray-600">Enter your information to create an account</p>
         </div>
+        {error && <p className="text-red-500 text-center">{error}</p>}
         <form onSubmit={handleSignup}>
           <div className="mb-4">
             <label htmlFor="firstName" className="block text-sm text-black font-bold">First Name</label>
