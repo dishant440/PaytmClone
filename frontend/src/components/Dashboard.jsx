@@ -2,8 +2,10 @@ import React from "react";
 
 export default function Dashboard() {
   return (
-    <div className="shadow-sm border-b-2">
+    <div>
       <TopBar />
+      <Balance/>
+      <UserRenderer/>
     </div>
   );
 }
@@ -11,12 +13,50 @@ export default function Dashboard() {
 function TopBar() {
   return (
     <>
-      <div className="flex justify-between p-1">
-        <h1 className="mt-2 p-2 text-2xl">PayTm App</h1>
+      <div className="flex justify-between p-1 shadow-sm border-b-2 mb-2">
+        <h1 className="mt-2 p-2 text-2xl font-bold">PayTm App</h1>
         <User />
       </div>
     </>
   );
+}
+
+function Balance() {
+  return <div className="text-lg font-bold ml-2 mt-5">
+    <h2>Your balance $8000</h2> 
+  </div>
+}
+
+function UserComponents(){
+  return(
+    <>
+        <div className="flex justify-between p-2 mt-3">
+          <div className="flex gap-x-2">
+            <span>U1 </span><span className="font-bold">User 1</span>
+          </div>
+          <div>
+            <button className="bg-black text-white p-2 rounded text-sm">Send Money</button>
+          </div>
+        </div>
+    </>
+  )
+}
+
+function UserRenderer() {
+  return(
+    <>
+      <div>
+      <h1 className="mt-8 ml-2 text-md font-bold">Users</h1>
+      <input className="mt-5 ml-2 border-2 w-full p-2" type="text" placeholder="Search Users" />
+      </div>
+      <div>
+        <UserComponents/>
+        <UserComponents/>
+        <UserComponents/>
+
+      </div>
+    </>
+  )  
 }
 
 function User() {
