@@ -17,9 +17,10 @@ export default function Signin() {
     };
     try {
       const response = await axios.post(
-        " http://localhost:3000/api/v1/user/signin",
+        "http://localhost:3000/api/v1/user/signin",
         reqBody        
       );
+      console.log(response);
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
     } catch (err) {

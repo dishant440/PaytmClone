@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Signup() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
-  const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
   const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleSignup = async (e) => {
@@ -24,11 +25,10 @@ export default function Signup() {
       );
 
       localStorage.setItem("token", response.data.token);
-      navigate("/signin");
-    } catch (error) {
-      setError("Signup failed. Please try again.");
-
-      console.error("Signup error:", error);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+      navigate("/dashboard");
+    } catch (err) {
+      setError("Error in sign up");
     }
   };
 
@@ -38,57 +38,54 @@ export default function Signup() {
         <div className="mb-6 text-center">
           <h1 className="text-3xl font-bold">Sign Up</h1>
           <p className="text-gray-600">
-            Enter your information to create an account
+            Create your account
           </p>
         </div>
         {error && <div className="mb-4 text-red-500">{error}</div>}
         <form onSubmit={handleSignup}>
           <div className="mb-4">
             <label
-              htmlFor="firstName"
+              htmlFor="firstname"
               className="block text-sm text-black font-bold"
             >
               First Name
             </label>
             <input
               type="text"
-              id="firstName"
+              id="firstname"
               name="firstname"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               onChange={(e) => setFirstname(e.target.value)}
-              required
             />
           </div>
           <div className="mb-4">
             <label
-              htmlFor="lastName"
+              htmlFor="lastname"
               className="block text-sm text-black font-bold"
             >
               Last Name
             </label>
             <input
               type="text"
-              id="lastName"
+              id="lastname"
               name="lastname"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               onChange={(e) => setLastname(e.target.value)}
-              required
             />
           </div>
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="username"
               className="block text-sm text-black font-bold"
             >
               Email
             </label>
             <input
               type="email"
-              id="email"
-              name="email"
+              id="username"
+              name="username"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               onChange={(e) => setUsername(e.target.value)}
-              required
             />
           </div>
           <div className="mb-6">
@@ -104,7 +101,6 @@ export default function Signup() {
               name="password"
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
           </div>
           <button
@@ -115,16 +111,15 @@ export default function Signup() {
           </button>
         </form>
         <p className="text-gray-600 pt-2 text-center">
-          Already have an Account?{" "}
+          Already have an account?{" "}
           <span
             className="underline cursor-pointer"
             onClick={() => navigate("/signin")}
           >
-            Login
+            Sign In
           </span>
         </p>
       </div>
-      <ToastContainer />
     </div>
   );
 }

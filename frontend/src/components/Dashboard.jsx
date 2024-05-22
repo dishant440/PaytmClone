@@ -1,30 +1,44 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 export default function Dashboard() {
+  const [username,setUsername] = useState(null);
+  const [balance,setBalance] = useState(null);
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/v1/user/me")
+      .then((response) => {
+        setUsername(response.data.name);     
+        setBalance(response.data.balance);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the users!", error);
+      });
+  }, []);
   return (
     <div>
-      <TopBar />
-      <Balance />
+      <TopBar username={username} />
+      <Balance balance={balance} />
       <UserRenderer />
     </div>
   );
 }
 
-function TopBar() {
+function TopBar({username}) {
   return (
     <>
       <div className="flex justify-between p-1 shadow-sm border-b-2 mb-2">
         <h1 className="mt-2 p-2 text-2xl font-bold">PayTm App</h1>
-        <User />
+        <User username={username}  />
       </div>
     </>
   );
 }
 
-function Balance() {
+function Balance(props) {
+
   return (
     <div className="text-lg font-bold ml-2 mt-5">
-      <h2>Your balance $8000</h2>
+      <h2>Your balance ${props.balance}</h2>
     </div>
   );
 }
@@ -47,8 +61,8 @@ function UserComponents() {
   return (
     <>
       {users &&
-        users.map((user) => (
-          <div key={user.id} className="flex justify-between p-2 mt-3">
+        users.map((user,index) => (
+          <div key={index} className="flex justify-between p-2 mt-3">
             <div className="flex gap-x-2">
               <img
                 className="w-8 h-8"
@@ -86,11 +100,12 @@ function UserRenderer() {
   );
 }
 
-function User() {
+function User(props) {
+ 
   return (
     <>
-      <div className="flex gap-x-4 mt-2 p-2">
-        <span>Hello,User</span>
+      <div className="flex gap-x-4 mt-2 p-2 font-bold">
+        <span>Hello, {props.username}</span>
         <img className="w-8 h-8" src="user.png" alt="" />
       </div>
     </>

@@ -47,7 +47,7 @@ router.post("/signup", async function (req, res) {
   try {
     await Account.create({
       userId: userId,
-      balance: 1 + Math.random() * 10000,
+      balance:(1 + Math.random() * 10000).toFixed(2),
     });
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -56,7 +56,7 @@ router.post("/signup", async function (req, res) {
   const token = jwt.sign(
     { userId: userId },
     JWT_SECRET,
-    { expiresIn: '1h' } // Token expiration time can be adjusted as needed
+    { expiresIn: "1h" } // Token expiration time can be adjusted as needed
   );
   res.status(201).json({
     message: "User Created Successfully",
@@ -83,11 +83,7 @@ router.post("/signin", async (req, res) => {
   });
 
   if (user) {
-    const token = jwt.sign(
-      { userId: user._id },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET);
     res.json({ token: token });
   } else {
     res.status(401).json({ message: "Invalid username or password" });
@@ -127,7 +123,7 @@ router.get("/bulk", authMiddleware, async (req, res) => {
     ],
   });
   res.json({
-    users: users.map(user => ({
+    users: users.map((user) => ({
       username: user.username,
       firstname: user.firstname,
       lastname: user.lastname,
