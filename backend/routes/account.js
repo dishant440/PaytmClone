@@ -36,9 +36,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
       });
     }
 
-    const toAccount = await Account.findOne({ userId: receiver }).session(
-      session
-    );
+    const toAccount = await Account.findOne({ userId: receiver }).session(session);
     if (!toAccount) {
       await session.abortTransaction();
       return res.status(400).json({

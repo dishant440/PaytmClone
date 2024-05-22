@@ -156,4 +156,23 @@ router.get("/bulk", authMiddleware, async (req, res) => {
   });
 });
 
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const user = await User.findById(userId).select("firstname");
+    if (!user) {
+      return res.status(404).json({ message: "user not found" });
+    }
+    const account = await Account.findOne({
+      userId,
+    });
+    res.status(200).json({
+      balance:account.balance,
+      name:user.firstname
+    })
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
