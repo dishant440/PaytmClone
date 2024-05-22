@@ -21,7 +21,7 @@ export default function Signin() {
         reqBody        
       );
       console.log(response);
-      localStorage.setItem("token", response.data.token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
       navigate("/dashboard");
     } catch (err) {
       setError("Error in sign in")

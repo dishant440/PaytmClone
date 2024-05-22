@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom"
+
 export default function Dashboard() {
-  const [username,setUsername] = useState(null);
-  const [balance,setBalance] = useState(null);
+  const [username, setUsername] = useState(null);
+  const [balance, setBalance] = useState(null);
   useEffect(() => {
     axios
       .get("http://localhost:3000/api/v1/user/me")
       .then((response) => {
-        setUsername(response.data.name);     
+        setUsername(response.data.name);
         setBalance(response.data.balance);
       })
       .catch((error) => {
@@ -23,19 +25,18 @@ export default function Dashboard() {
   );
 }
 
-function TopBar({username}) {
+function TopBar({ username }) {
   return (
     <>
       <div className="flex justify-between p-1 shadow-sm border-b-2 mb-2">
         <h1 className="mt-2 p-2 text-2xl font-bold">PayTm App</h1>
-        <User username={username}  />
+        <User username={username} />
       </div>
     </>
   );
 }
 
 function Balance(props) {
-
   return (
     <div className="text-lg font-bold ml-2 mt-5">
       <h2>Your balance ${props.balance}</h2>
@@ -44,7 +45,9 @@ function Balance(props) {
 }
 
 function UserComponents() {
+  const navigate = useNavigate()
   const [users, setUsers] = useState([]);
+  
 
   useEffect(() => {
     axios
@@ -61,7 +64,7 @@ function UserComponents() {
   return (
     <>
       {users &&
-        users.map((user,index) => (
+        users.map((user, index) => (
           <div key={index} className="flex justify-between p-2 mt-3">
             <div className="flex gap-x-2">
               <img
@@ -72,7 +75,11 @@ function UserComponents() {
               <span className="font-bold">{user.firstname}</span>
             </div>
             <div>
-              <button className="bg-black text-white p-2 rounded text-sm">
+              <button className="bg-black text-white p-2 rounded text-sm"
+                onClick={(e)=>{
+                  navigate("/sendmoney?Id="+user._id+"&name="+user.firstname)
+                }}
+              >
                 Send Money
               </button>
             </div>
@@ -101,7 +108,6 @@ function UserRenderer() {
 }
 
 function User(props) {
- 
   return (
     <>
       <div className="flex gap-x-4 mt-2 p-2 font-bold">
