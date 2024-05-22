@@ -80,11 +80,11 @@ router.post("/signin", async (req, res) => {
       message: "Email already taken / Incorrect inputs",
     });
   }
-
   const user = await User.findOne({
     username: req.body.username,
     password: req.body.password,
   });
+  const username = req.body.username;
 
   if (user) {
     const token = jwt.sign(
@@ -129,7 +129,7 @@ router.put("/", authMiddleware, async (req, res) => {
 
 // route to get user
 
-router.get("/bulk", async (req, res) => {
+router.get("/bulk", authMiddleware, async (req, res) => {
   const filter = req.query.filter || "";
   const users = await User.find({
     $or: [

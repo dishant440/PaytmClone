@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 export default function Dashboard() {
-
-
-
   return (
     <div>
       <TopBar />
@@ -32,36 +29,41 @@ function Balance() {
   );
 }
 
-
 function UserComponents() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/v1/user/bulk")
-      .then(response => {
+    axios
+      .get("http://localhost:3000/api/v1/user/bulk")
+      .then((response) => {
         setUsers(response.data.users);
         console.log(response.data.users);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("There was an error fetching the users!", error);
       });
   }, []);
 
   return (
     <>
-      {users && users.map(user => (
-        <div key={user.id} className="flex justify-between p-2 mt-3">
-          <div className="flex gap-x-2">
-            <img className="w-8 h-8" src="user.png" alt={`${user.firstname}'s avatar`} />
-            <span className="font-bold">{user.firstname}</span>
+      {users &&
+        users.map((user) => (
+          <div key={user.id} className="flex justify-between p-2 mt-3">
+            <div className="flex gap-x-2">
+              <img
+                className="w-8 h-8"
+                src="user.png"
+                alt={`${user.firstname}'s avatar`}
+              />
+              <span className="font-bold">{user.firstname}</span>
+            </div>
+            <div>
+              <button className="bg-black text-white p-2 rounded text-sm">
+                Send Money
+              </button>
+            </div>
           </div>
-          <div>
-            <button className="bg-black text-white p-2 rounded text-sm">
-              Send Money
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
     </>
   );
 }
